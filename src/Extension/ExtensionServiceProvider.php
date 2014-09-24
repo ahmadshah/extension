@@ -11,6 +11,7 @@ class ExtensionServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerExtensionBuilder();
         $this->registerExtensionFinder();
         $this->registerExtensionConfigManager();
         $this->registerExtension();
@@ -65,6 +66,18 @@ class ExtensionServiceProvider extends ServiceProvider
             );
 
             return new Finder($app['files'], $config);
+        });
+    }
+
+    /**
+     * Register the service provider for Extension Builder
+     *
+     * @return void
+     */
+    protected function registerExtensionBuilder()
+    {
+        $this->app->bindShared('orchestra.extension.builder', function ($app) {
+            return new Builder($app['files']);
         });
     }
 
